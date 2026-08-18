@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="lo">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ສຸ່ມເລກລາວ - TELEX GAMER</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Phetsarath OT', 'Noto Sans Lao', sans-serif;
+        }
+
+        body {
+            /* ພື້ນຫຼັງ ໂທນຟ້າມ່ວງ Gradient */
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #311042 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* --- ເພີ່ມລາຍນ້ຳ Watermark ພື້ນຫຼັງ --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* ໃສ່ລີ້ງ/ຊື່ຟາຍຮູບໂລໂກ້ຢູ່ບ່ອນນີ້ */
+            background-image: url('../ຫວຍລາວ/telexgamer.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 140% auto;
+            /* ປັບຂະໜາດຮູບລາຍນ້ຳ */
+            opacity: 0.08;
+            /* ຄວາມຈາງຂອງລາຍນ້ຳ (0.08 = ຈາງອ່ອນໆກຳລັງດີ) */
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 420px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            position: relative;
+            z-index: 1;
+            /* ໃຫ້ເນື້ອຫາຢູ່ເທິງລາຍນ້ຳ */
+        }
+
+        /* ກ່ອງ Glassmorphism */
+        .box {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 26px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(139, 92, 246, 0.2);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .box-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #5b21b6;
+            margin-bottom: 16px;
+        }
+
+        /* Box 1: ເລກ 6 ໂຕ */
+        .six-digit-card {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e0e7ff 100%);
+            border: 2px solid #a855f7;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .six-digit-number {
+            font-size: 38px;
+            font-weight: 800;
+            color: #7c3aed;
+            letter-spacing: 5px;
+            text-shadow: 0 2px 4px rgba(124, 58, 237, 0.15);
+        }
+
+        /* Box 2: ເລກນາມສັດ */
+        .animal-card {
+            background: linear-gradient(135deg, #f5f3ff 0%, #eff6ff 100%);
+            border: 2px dashed #8b5cf6;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 18px;
+            min-height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .animal-icon {
+            font-size: 52px;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .animal-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e1b4b;
+        }
+
+        .animal-numbers {
+            font-size: 16px;
+            color: #7c3aed;
+            font-weight: bold;
+            margin-top: 6px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            font-size: 17px;
+            border-radius: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+            transition: all 0.2s ease;
+        }
+
+        .btn-purple {
+            background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+            box-shadow: 0 4px 14px rgba(217, 70, 239, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <!-- BOX 1: ສຸ່ມເລກ 6 ໂຕ -->
+        <div class="box">
+            <div class="box-title">🎯ສຸ່ມເລກ 6 ໂຕ</div>
+            <div class="six-digit-card">
+                <div id="sixDigits" class="six-digit-number">------</div>
+            </div>
+            <button class="btn" onclick="random6Digits()">ສຸ່ມເລກ 6 ໂຕ</button>
+        </div>
+
+        <!-- BOX 2: ສຸ່ມເລກນາມສັດ -->
+        <div class="box">
+            <div class="box-title">🐾ສຸ່ມເລກນາມສັດ</div>
+            <div class="animal-card">
+                <div id="icon" class="animal-icon">❓</div>
+                <div id="name" class="animal-name">ກົດປຸ່ມເພື່ອສຸ່ມ</div>
+                <div id="numbers" class="animal-numbers">ເລກປະຈຳສັດ: --</div>
+            </div>
+            <button class="btn btn-purple" onclick="randomAnimal()">ສຸ່ມນາມສັດ</button>
+        </div>
+
+    </div>
+
+    <script>
+        const animals = [
+            { name: "ຂີ້ເຂັບ", numbers: "00, 20, 60", icon: "🦂" },
+            { name: "ປານ້ອຍ", numbers: "01, 41, 81", icon: "🐠" },
+            { name: "ຫອຍ", numbers: "02, 42, 82", icon: "🐌" },
+            { name: "ຫ່ານ", numbers: "03, 43, 83", icon: "🪿" },
+            { name: "ນົກຍູງ", numbers: "04, 44, 84", icon: "🦚" },
+            { name: "ສິງໂຕ", numbers: "05, 45, 85", icon: "🦁" },
+            { name: "ເສືອ", numbers: "06, 46, 86", icon: "🐅" },
+            { name: "ໝູ", numbers: "07, 47, 87", icon: "🐖" },
+            { name: "ກະຕ່າຍ", numbers: "08, 48, 88", icon: "🐇" },
+            { name: "ຄວາຍ", numbers: "09, 49, 89", icon: "🐃" },
+            { name: "ນາກນ້ຳ", numbers: "10, 50, 90", icon: "🦦" },
+            { name: "ໝາ", numbers: "11, 51, 91", icon: "🐕" },
+            { name: "ມ້າ", numbers: "12, 52, 92", icon: "🐎" },
+            { name: "ຊ້າງ", numbers: "13, 53, 93", icon: "🐘" },
+            { name: "ແມວບ້ານ", numbers: "14, 54, 94", icon: "🐈" },
+            { name: "ໜູ", numbers: "15, 55, 95", icon: "🐹" },
+            { name: "ເຜິ້ງ", numbers: "16, 56, 96", icon: "🐝" },
+            { name: "ນົກຢາງ", numbers: "17, 57, 97", icon: "🦩" },
+            { name: "ແມວປ່າ", numbers: "18, 58, 98", icon: "🐆" },
+            { name: "ແມງກະເບື້ອ", numbers: "19, 59, 99", icon: "🦋" },
+            { name: "ນົກແອ່ນ", numbers: "21, 61", icon: "🐦" },
+            { name: "ນົກກາງແກ", numbers: "22, 62", icon: "🕊️" },
+            { name: "ລີງ", numbers: "23, 63", icon: "🐒" },
+            { name: "ກົບ", numbers: "24, 64", icon: "🐸" },
+            { name: "ແຫຼວ", numbers: "25, 65", icon: "🦅" },
+            { name: "ນາກບິນ", numbers: "26, 66", icon: "🐉" },
+            { name: "ເຕົ່າ", numbers: "27, 67", icon: "🐢" },
+            { name: "ໄກ່", numbers: "28, 68", icon: "🐓" },
+            { name: "ອ່ຽນ", numbers: "29, 69", icon: "🐍" },
+            { name: "ປາໃຫຍ່", numbers: "30, 70", icon: "🐬" },
+            { name: "ກຸ້ງ", numbers: "31, 71", icon: "🦐" },
+            { name: "ງູ", numbers: "32, 72", icon: "🐍" },
+            { name: "ແມງມຸມ", numbers: "33, 73", icon: "🕷️" },
+            { name: "ກວາງ", numbers: "34, 74", icon: "🦌" },
+            { name: "ແບ້", numbers: "35, 75", icon: "🐐" },
+            { name: "ເຫັນ", numbers: "36, 76", icon: "🦝" },
+            { name: "ລິ່ນ", numbers: "37, 77", icon: "🦎" },
+            { name: "ເໝັ້ນ", numbers: "38, 78", icon: "🦔" },
+            { name: "ກະປູ", numbers: "39, 79", icon: "🦀" },
+            { name: "ນົກອິນຊີ", numbers: "40, 80", icon: "🦅" }
+        ];
+
+        function random6Digits() {
+            const result = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
+            document.getElementById('sixDigits').textContent = result;
+        }
+
+        function randomAnimal() {
+            const randomIndex = Math.floor(Math.random() * animals.length);
+            const selected = animals[randomIndex];
+
+            document.getElementById('icon').textContent = selected.icon;
+            document.getElementById('name').textContent = selected.name;
+            document.getElementById('numbers').textContent = "ເລກປະຈຳສັດ: " + selected.numbers;
+        }
+    </script>
+
+</body>
+
+</html>
