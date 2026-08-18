@@ -12,7 +12,6 @@
         }
 
         body {
-            /* ພື້ນຫຼັງ ໂທນຟ້າມ່ວງ Gradient */
             background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 40%, #311042 100%);
             display: flex;
             flex-direction: column;
@@ -25,7 +24,7 @@
             overflow-x: hidden;
         }
 
-        /* --- ເພີ່ມລາຍນ້ຳ Watermark ພື້ນຫຼັງ --- */
+        /* ລາຍນ້ຳ Watermark ພື້ນຫຼັງ */
         body::before {
             content: "";
             position: fixed;
@@ -33,14 +32,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* ໃສ່ລີ້ງ/ຊື່ຟາຍຮູບໂລໂກ້ຢູ່ບ່ອນນີ້ */
-            background-image: url('../ຫວຍລາວ/telexgamer.png');
+            background-image: url('logo.png');
             background-repeat: no-repeat;
             background-position: center;
-            background-size: 140% auto;
-            /* ປັບຂະໜາດຮູບລາຍນ້ຳ */
+            background-size: 60% auto;
             opacity: 0.08;
-            /* ຄວາມຈາງຂອງລາຍນ້ຳ (0.08 = ຈາງອ່ອນໆກຳລັງດີ) */
             z-index: 0;
             pointer-events: none;
         }
@@ -53,7 +49,6 @@
             gap: 24px;
             position: relative;
             z-index: 1;
-            /* ໃຫ້ເນື້ອຫາຢູ່ເທິງລາຍນ້ຳ */
         }
 
         /* ກ່ອງ Glassmorphism */
@@ -71,11 +66,30 @@
             font-size: 18px;
             font-weight: bold;
             color: #5b21b6;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
         }
 
-        /* Box 1: ເລກ 6 ໂຕ */
-        .six-digit-card {
+        /* Dropdown ເລືອກຫຼັກເລກ */
+        .select-container {
+            margin-bottom: 14px;
+        }
+
+        .digit-select {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #4c1d95;
+            background-color: #f3e8ff;
+            border: 2px solid #a855f7;
+            border-radius: 10px;
+            outline: none;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        /* Box 1: ເລກສຸ່ມຕາມຫຼັກ */
+        .digit-card {
             background: linear-gradient(135deg, #f3e8ff 0%, #e0e7ff 100%);
             border: 2px solid #a855f7;
             border-radius: 14px;
@@ -84,7 +98,7 @@
             box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .six-digit-number {
+        .digit-number {
             font-size: 38px;
             font-weight: 800;
             color: #7c3aed;
@@ -160,18 +174,29 @@
 
     <div class="container">
 
-        <!-- BOX 1: ສຸ່ມເລກ 6 ໂຕ -->
+        <!-- BOX 1: ສຸ່ມເລກຕາມຫຼັກ -->
         <div class="box">
-            <div class="box-title">🎯ສຸ່ມເລກ 6 ໂຕ</div>
-            <div class="six-digit-card">
-                <div id="sixDigits" class="six-digit-number">------</div>
+            <div class="box-title">🎯 ແບບທີ 1: ສຸ່ມເລກລະບຸຫຼັກ</div>
+
+            <div class="select-container">
+                <select id="digitCount" class="digit-select" onchange="updatePlaceholder()">
+                    <option value="2">ສຸ່ມເລກ 2 ໂຕ</option>
+                    <option value="3">ສຸ່ມເລກ 3 ໂຕ</option>
+                    <option value="4">ສຸ່ມເລກ 4 ໂຕ</option>
+                    <option value="5">ສຸ່ມເລກ 5 ໂຕ</option>
+                    <option value="6" selected>ສຸ່ມເລກ 6 ໂຕ</option>
+                </select>
             </div>
-            <button class="btn" onclick="random6Digits()">ສຸ່ມເລກ 6 ໂຕ</button>
+
+            <div class="digit-card">
+                <div id="digitResult" class="digit-number">------</div>
+            </div>
+            <button class="btn" onclick="randomDigits()">ສຸ່ມເລກ</button>
         </div>
 
         <!-- BOX 2: ສຸ່ມເລກນາມສັດ -->
         <div class="box">
-            <div class="box-title">🐾ສຸ່ມເລກນາມສັດ</div>
+            <div class="box-title">🐾 ແບບທີ 2: ສຸ່ມເລກນາມສັດ</div>
             <div class="animal-card">
                 <div id="icon" class="animal-icon">❓</div>
                 <div id="name" class="animal-name">ກົດປຸ່ມເພື່ອສຸ່ມ</div>
@@ -183,6 +208,7 @@
     </div>
 
     <script>
+        // ຂໍ້ມູນນາມສັດ 40 ນາມ
         const animals = [
             { name: "ຂີ້ເຂັບ", numbers: "00, 20, 60", icon: "🦂" },
             { name: "ປານ້ອຍ", numbers: "01, 41, 81", icon: "🐠" },
@@ -226,11 +252,23 @@
             { name: "ນົກອິນຊີ", numbers: "40, 80", icon: "🦅" }
         ];
 
-        function random6Digits() {
-            const result = Math.floor(Math.random() * 1000000).toString().padStart(6, '0');
-            document.getElementById('sixDigits').textContent = result;
+        // ປ່ຽນເຄື່ອງໝາຍ (-) ຕາມຈຳນວນຫຼັກເລກທີ່ເລືອກ
+        function updatePlaceholder() {
+            const count = parseInt(document.getElementById('digitCount').value);
+            document.getElementById('digitResult').textContent = "-".repeat(count);
         }
 
+        // ຟັງຊັນສຸ່ມເລກຕາມຫຼັກເລກ 2, 3, 4, 5, 6
+        function randomDigits() {
+            const count = parseInt(document.getElementById('digitCount').value);
+            const max = Math.pow(10, count);
+            const randomNumber = Math.floor(Math.random() * max);
+            const resultFormatted = randomNumber.toString().padStart(count, '0');
+
+            document.getElementById('digitResult').textContent = resultFormatted;
+        }
+
+        // ຟັງຊັນສຸ່ມເລກນາມສັດ
         function randomAnimal() {
             const randomIndex = Math.floor(Math.random() * animals.length);
             const selected = animals[randomIndex];
